@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test - DecarsAuto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1557b0;
+        }
+        .success {
+            color: #0f9d58;
+        }
+        .error {
+            color: #d93025;
+        }
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DecarsAuto - Quick Test Page</h1>
+    
+    <div class="box">
+        <h2>Step 1: Clear Browser Cache</h2>
+        <button onclick="clearCache()">Clear Cache</button>
+        <div id="result1"></div>
+    </div>
+    
+    <div class="box">
+        <h2>Step 2: Test Script Loading</h2>
+        <button onclick="testScript()">Test Script</button>
+        <div id="result2"></div>
+    </div>
+    
+    <div class="box">
+        <h2>Step 3: Manual Test Commands</h2>
+        <p>Open browser console (F12) and run these commands:</p>
+        <ol>
+            <li>Test language change: <code>changeLanguage('zh')</code></li>
+            <li>Test copy function: <code>copyTemplate()</code></li>
+            <li>Check current language: <code>console.log(currentLang)</code></li>
+        </ol>
+    </div>
+    
+    <div class="box">
+        <h2>Step 4: Go to Main Page</h2>
+        <button onclick="window.location.href='index.html'">Open index.html</button>
+        <p><small>Remember to press Ctrl+F5 to force refresh!</small></p>
+    </div>
+    
+    <script>
+        function clearCache() {
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+                document.getElementById('result1').innerHTML = '<p class="success">? Cache cleared successfully!</p>';
+            } catch (err) {
+                document.getElementById('result1').innerHTML = '<p class="error">? Error: ' + err.message + '</p>';
+            }
+        }
+        
+        function testScript() {
+            const result = document.getElementById('result2');
+            result.innerHTML = '<p>Loading script...</p>';
+            
+            const script = document.createElement('script');
+            script.src = 'script.js?v=' + Date.now();
+            
+            script.onload = function() {
+                let html = '<p class="success">? script.js loaded!</p>';
+                
+                if (typeof changeLanguage !== 'undefined') {
+                    html += '<p class="success">? changeLanguage function found</p>';
+                } else {
+                    html += '<p class="error">? changeLanguage function NOT found</p>';
+                }
+                
+                if (typeof copyTemplate !== 'undefined') {
+                    html += '<p class="success">? copyTemplate function found</p>';
+                } else {
+                    html += '<p class="error">? copyTemplate function NOT found</p>';
+                }
+                
+                if (typeof translations !== 'undefined') {
+                    html += '<p class="success">? translations object found (' + Object.keys(translations).length + ' languages)</p>';
+                } else {
+                    html += '<p class="error">? translations object NOT found</p>';
+                }
+                
+                result.innerHTML = html;
+            };
+            
+            script.onerror = function() {
+                result.innerHTML = '<p class="error">? Failed to load script.js</p>';
+            };
+            
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>

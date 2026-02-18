@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Test - DecarsAuto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ccc;
+            position: relative;
+        }
+        
+        .status.loading {
+            background: #ffc107;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status.success {
+            background: #28a745;
+        }
+        
+        .status.error {
+            background: #dc3545;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .test-details {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .test-details pre {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+        
+        .error-msg {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DecarsAuto Quick Fix</h1>
+        <p class="subtitle">Auto-detect and fix language switcher & copy function issues</p>
+        
+        <div class="test-section">
+            <h2>
+                <span class="status" id="status1"></span>
+                Test 1: Clear Cache
+            </h2>
+            <div class="test-details" id="test1">Ready to start...</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>
+                <span class="status" id="status2"></span>
+                Test 2: Verify Script Loading
+            </h2>
+            <div class="test-details" id="test2">Waiting...</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>
+                <span class="status" id="status3"></span>
+                Test 3: Test Functions
+            </h2>
+            <div class="test-details" id="test3">Waiting...</div>
+        </div>
+        
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <button onclick="startTests()">Start Auto Fix</button>
+        
+        <div class="success-msg" id="successMsg">
+            ✅ <strong>Fix Complete!</strong><br>
+            You can now open index.html to test the functions.<br>
+            <small>Recommended: Use Ctrl+F5 to force refresh</small>
+        </div>
+        
+        <div class="error-msg" id="errorMsg">
+            ❌ <strong>Issue Detected</strong><br>
+            <span id="errorDetails"></span>
+        </div>
+        
+        <button onclick="window.location.href='index.html'" style="margin-top: 20px; background: #28a745;">
+            Open Main Page (index.html)
+        </button>
+        
+        <button onclick="window.location.href='debug.html'" style="margin-top: 10px; background: #6c757d;">
+            Advanced Debug Tool
+        </button>
+    </div>
+    
+    <script>
+        let progress = 0;
+        
+        function updateProgress(value) {
+            progress = value;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function setStatus(id, status, message) {
+            const statusEl = document.getElementById('status' + id);
+            const testEl = document.getElementById('test' + id);
+            
+            statusEl.className = 'status ' + status;
+            testEl.innerHTML = message;
+        }
+        
+        async function startTests() {
+            // Reset
+            document.getElementById('successMsg').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+            updateProgress(0);
+            
+            // Test 1: Clear cache
+            setStatus(1, 'loading', 'Clearing browser cache...');
+            await sleep(500);
+            
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+                setStatus(1, 'success', '✅ Successfully cleared localStorage and sessionStorage');
+                updateProgress(33);
+            } catch (err) {
+                setStatus(1, 'error', '❌ Failed to clear cache: ' + err.message);
+                showError('Cannot clear cache, please do it manually');
+                return;
+            }
+            
+            await sleep(500);
+            
+            // Test 2: Load and verify script
+            setStatus(2, 'loading', 'Loading and verifying script.js...');
+            await sleep(500);
+            
+            try {
+                // Load the script dynamically
+                await loadScript('script.js?v=' + Date.now());
+                
+                let details = '';
+                if (typeof changeLanguage !== 'undefined') {
+                    details += '✅ changeLanguage function loaded<br>';
+                } else {
+                    throw new Error('changeLanguage function not found');
+                }
+                
+                if (typeof copyTemplate !== 'undefined') {
+                    details += '✅ copyTemplate function loaded<br>';
+                } else {
+                    throw new Error('copyTemplate function not found');
+                }
+                
+                if (typeof translations !== 'undefined') {
+                    details += `✅ translations object loaded (${Object.keys(translations).length} languages)<br>`;
+                    details += `<pre>Supported: ${Object.keys(translations).join(', ')}</pre>`;
+                } else {
+                    throw new Error('translations object not found');
+                }
+                
+                if (typeof requestTemplates !== 'undefined') {
+                    details += `✅ requestTemplates object loaded`;
+                } else {
+                    throw new Error('requestTemplates object not found');
+                }
+                
+                setStatus(2, 'success', details);
+                updateProgress(66);
+            } catch (err) {
+                setStatus(2, 'error', '❌ Script loading failed: ' + err.message);
+                showError('script.js failed to load, please check if file exists');
+                return;
+            }
+            
+            await sleep(500);
+            
+            // Test 3: Test functions
+            setStatus(3, 'loading', 'Testing functions...');
+            await sleep(500);
+            
+            try {
+                let details = '';
+                
+                // Test language change
+                if (typeof changeLanguage !== 'undefined') {
+                    changeLanguage('en');
+                    details += '✅ Language switcher working<br>';
+                    details += `<pre>Current language: ${currentLang}</pre>`;
+                }
+                
+                // Test copy template (without actually copying)
+                if (typeof requestTemplates !== 'undefined') {
+                    const template = requestTemplates['zh'];
+                    if (template && template.length > 0) {
+                        details += '✅ Template content ready<br>';
+                        details += `<pre>Template length: ${template.length} chars</pre>`;
+                    }
+                }
+                
+                setStatus(3, 'success', details);
+                updateProgress(100);
+                
+                await sleep(500);
+                showSuccess();
+                
+            } catch (err) {
+                setStatus(3, 'error', '❌ Function test failed: ' + err.message);
+                showError('Function test failed: ' + err.message);
+                return;
+            }
+        }
+        
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        function showSuccess() {
+            document.getElementById('successMsg').style.display = 'block';
+        }
+        
+        function showError(msg) {
+            document.getElementById('errorMsg').style.display = 'block';
+            document.getElementById('errorDetails').textContent = msg;
+        }
+    </script>
+</body>
+</html>

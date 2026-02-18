@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - DecarsAuto</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #1a73e8;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1557b0;
+        }
+        .success {
+            color: #0f9d58;
+            font-weight: bold;
+        }
+        .error {
+            color: #d93025;
+            font-weight: bold;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 4px solid #1a73e8;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .info {
+            background: #e8f0fe;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛠️ DecarsAuto 调试工具</h1>
+    
+    <div class="info">
+        <strong>说明：</strong>本页面用于排查 DecarsAuto 网站的功能问题。<br>
+        请按下面步骤依次测试。
+    </div>
+
+    <div class="section">
+        <h2>步骤 1：检查 `script.js` 是否加载</h2>
+        <button onclick="checkScriptLoaded()">检查脚本</button>
+        <div id="script-result" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>步骤 2：检查语言切换器元素</h2>
+        <button onclick="checkLanguageSwitcher()">检查元素</button>
+        <div id="switcher-result" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>步骤 3：测试语言切换功能</h2>
+        <button onclick="testLanguageChange('en')">切换到英文</button>
+        <button onclick="testLanguageChange('de')">切换到德语</button>
+        <button onclick="testLanguageChange('zh')">切换到中文</button>
+        <div id="language-result" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>步骤 4：测试复制模板功能</h2>
+        <button onclick="testCopyTemplate()">测试复制</button>
+        <div id="copy-result" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>步骤 5：检查 localStorage</h2>
+        <button onclick="checkLocalStorage()">检查存储</button>
+        <button onclick="clearLocalStorage()">清空存储</button>
+        <div id="storage-result" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>步骤 6：运行自动修复流程</h2>
+        <button onclick="runFullFix()">运行自动修复</button>
+        <div id="fix-result" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>步骤 7：打开主页面测试</h2>
+        <a href="index.html" style="text-decoration: none;">
+            <button>打开主页面 (`index.html`)</button>
+        </a>
+        <div class="info">
+            打开主页面后，按 <strong>F12</strong> 查看控制台，然后测试语言切换和复制功能。
+        </div>
+    </div>
+
+    <script>
+        function log(elementId, message, type = 'info') {
+            const el = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'success' ? '?' : type === 'error' ? '?' : '??';
+            el.innerHTML += `[${timestamp}] ${prefix} ${message}\n`;
+        }
+
+        function clearLog(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        function checkScriptLoaded() {
+            clearLog('script-result');
+            
+            // Create a script tag to load the main script
+            const script = document.createElement('script');
+            script.src = 'script.js?v=' + Date.now();
+            script.charset = 'utf-8';
+            script.onload = () => {
+                log('script-result', 'script.js 已加载', 'success');
+                
+                if (typeof changeLanguage !== 'undefined') {
+                    log('script-result', '? changeLanguage ��������', 'success');
+                } else {
+                    log('script-result', '? changeLanguage ����������', 'error');
+                }
+                
+                if (typeof copyTemplate !== 'undefined') {
+                    log('script-result', '? copyTemplate ��������', 'success');
+                } else {
+                    log('script-result', '? copyTemplate ����������', 'error');
+                }
+                
+                if (typeof translations !== 'undefined') {
+                    log('script-result', `? translations 对象存在（共 ${Object.keys(translations).length} 种语言）`, 'success');
+                    log('script-result', `支持的语言: ${Object.keys(translations).join(', ')}`, 'info');
+                } else {
+                    log('script-result', '? translations 对象不存在', 'error');
+                }
+            };
+            script.onerror = () => {
+                log('script-result', '? script.js 加载失败', 'error');
+                log('script-result', '请检查文件路径是否正确', 'error');
+            };
+            document.head.appendChild(script);
+        }
+
+        function checkLanguageSwitcher() {
+            clearLog('switcher-result');
+            
+            // Since we're on debug.html, we need to check if elements exist on main page
+            log('switcher-result', '此检查需要在 index.html 页面里执行', 'error');
+            log('switcher-result', '请打开 index.html 后按 F12 打开控制台，然后运行以下代码：', 'info');
+            log('switcher-result', '', 'info');
+            log('switcher-result', 'const btn = document.getElementById("lang-dropdown-btn");', 'info');
+            log('switcher-result', 'const menu = document.getElementById("lang-dropdown-menu");', 'info');
+            log('switcher-result', 'console.log("按钮:", btn);', 'info');
+            log('switcher-result', 'console.log("菜单:", menu);', 'info');
+            log('switcher-result', 'console.log("按钮事件监听:", getEventListeners(btn));', 'info');
+        }
+
+        function testLanguageChange(lang) {
+            clearLog('language-result');
+            
+            if (typeof changeLanguage === 'undefined') {
+                log('language-result', '? changeLanguage 函数未定义', 'error');
+                log('language-result', '请先点击“检查脚本”按钮', 'error');
+                return;
+            }
+            
+            try {
+                changeLanguage(lang);
+                log('language-result', `? 已切换语言: ${lang}`, 'success');
+                log('language-result', `当前 currentLang 值: ${currentLang}`, 'info');
+                log('language-result', `localStorage preferredLanguage: ${localStorage.getItem('preferredLanguage')}`, 'info');
+            } catch (err) {
+                log('language-result', `? 切换失败: ${err.message}`, 'error');
+            }
+        }
+
+        function testCopyTemplate() {
+            clearLog('copy-result');
+            
+            if (typeof copyTemplate === 'undefined') {
+                log('copy-result', '? copyTemplate 函数未定义', 'error');
+                log('copy-result', '请先点击“检查脚本”按钮', 'error');
+                return;
+            }
+            
+            if (typeof requestTemplates === 'undefined') {
+                log('copy-result', 'requestTemplates 未定义（当前版本脚本不再使用该变量，这是正常的）', 'info');
+            }
+            
+            try {
+                log('copy-result', '开始测试复制...', 'info');
+                log('copy-result', `当前语言: ${currentLang || 'en'}`, 'info');
+                
+                // Test copy
+                copyTemplate();
+                log('copy-result', '? copyTemplate 已执行', 'success');
+                log('copy-result', '请确认是否弹出 alert 提示', 'info');
+            } catch (err) {
+                log('copy-result', `? 复制失败: ${err.message}`, 'error');
+            }
+        }
+
+        function checkLocalStorage() {
+            clearLog('storage-result');
+            
+            log('storage-result', '=== localStorage ���� ===', 'info');
+            
+            const lang = localStorage.getItem('preferredLanguage');
+            if (lang) {
+                log('storage-result', `? preferredLanguage: ${lang}`, 'success');
+            } else {
+                log('storage-result', '? preferredLanguage: 未设置', 'error');
+            }
+            
+            const cookie = localStorage.getItem('cookieConsent');
+            if (cookie) {
+                log('storage-result', `? cookieConsent: ${cookie}`, 'success');
+            } else {
+                log('storage-result', 'cookieConsent: 未设置', 'info');
+            }
+            
+            log('storage-result', '\n当前 localStorage 键值:', 'info');
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                log('storage-result', `  ${key}: ${localStorage.getItem(key)}`, 'info');
+            }
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+            log('storage-result', '? localStorage 已清空', 'success');
+            log('storage-result', '请刷新页面后再重新测试', 'info');
+        }
+
+        function runFullFix() {
+            clearLog('fix-result');
+            
+            log('fix-result', '开始运行自动修复...', 'info');
+            
+            // Step 1: Clear cache
+            log('fix-result', '\n步骤 1：清空 localStorage', 'info');
+            localStorage.clear();
+            log('fix-result', '? 已清空', 'success');
+            
+            // Step 2: Check script
+            log('fix-result', '\n步骤 2：重新加载脚本', 'info');
+            const script = document.createElement('script');
+            script.src = 'script.js?v=' + Date.now();
+            script.onload = () => {
+                log('fix-result', '? script.js 已重新加载', 'success');
+                
+                // Step 3: Set default language
+                log('fix-result', '\n步骤 3：设置默认语言为英文', 'info');
+                if (typeof changeLanguage !== 'undefined') {
+                    changeLanguage('en');
+                    log('fix-result', '? 已设置默认语言: en', 'success');
+                }
+                
+                // Step 4: Test
+                log('fix-result', '\n步骤 4：检查关键函数是否存在', 'info');
+                log('fix-result', `changeLanguage ����: ${typeof changeLanguage !== 'undefined' ? '? ����' : '? ������'}`, typeof changeLanguage !== 'undefined' ? 'success' : 'error');
+                log('fix-result', `copyTemplate ����: ${typeof copyTemplate !== 'undefined' ? '? ����' : '? ������'}`, typeof copyTemplate !== 'undefined' ? 'success' : 'error');
+                
+                log('fix-result', '\n修复完成', 'success');
+                log('fix-result', '\n下一步建议：', 'info');
+                log('fix-result', '1. 点击下方按钮打开 index.html', 'info');
+                log('fix-result', '2. 按 Ctrl+F5 强制刷新页面', 'info');
+                log('fix-result', '3. 测试语言切换与复制功能', 'info');
+            };
+            script.onerror = () => {
+                log('fix-result', '? 脚本加载失败', 'error');
+            };
+            document.head.appendChild(script);
+        }
+
+        // Initial message
+        window.onload = () => {
+            console.log('?? DecarsAuto Debug Tool loaded');
+            console.log('请按页面上的按钮逐步测试');
+        };
+    </script>
+</body>
+</html>
