@@ -94,29 +94,23 @@ function initMobileMenu() {
 }
 
 // ======================
-// Dark Mode - Auto System Detection
+// Dark Mode - DISABLED
 // ======================
-function initDarkMode() {
-    // Check system preference
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-    // Function to apply dark mode based on system preference
-    function applyDarkMode(isDark) {
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }
-
-    // Apply initial theme based on system preference
-    applyDarkMode(prefersDarkScheme.matches);
-
-    // Listen for system theme changes and apply automatically
-    prefersDarkScheme.addEventListener('change', (e) => {
-        applyDarkMode(e.matches);
-    });
-}
+// Dark mode functionality has been disabled
+// function initDarkMode() {
+//     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+//     function applyDarkMode(isDark) {
+//         if (isDark) {
+//             document.body.classList.add('dark-mode');
+//         } else {
+//             document.body.classList.remove('dark-mode');
+//         }
+//     }
+//     applyDarkMode(prefersDarkScheme.matches);
+//     prefersDarkScheme.addEventListener('change', (e) => {
+//         applyDarkMode(e.matches);
+//     });
+// }
 
 // ======================
 // Contact Form
