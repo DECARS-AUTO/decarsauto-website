@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enhancements - DecarsAuto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-section {
+            min-height: 100vh;
+            padding: 100px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .test-section:nth-child(odd) {
+            background: #f8f9fa;
+        }
+        .test-section:nth-child(even) {
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; padding: 50px 20px; background: #1a1a2e; color: white;">
+        DecarsAuto - UI Enhancements Test
+    </h1>
+    
+    <div class="test-section">
+        <div class="container">
+            <h2>Section 1</h2>
+            <p>Scroll down to test the back-to-top button and fade-in animations.</p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <div class="container">
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Service 1</h3>
+                    <p>This card should fade in when scrolled into view</p>
+                </div>
+                <div class="service-card">
+                    <h3>Service 2</h3>
+                    <p>This card should fade in when scrolled into view</p>
+                </div>
+                <div class="service-card">
+                    <h3>Service 3</h3>
+                    <p>This card should fade in when scrolled into view</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <div class="container">
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h3>Step 1</h3>
+                    <p>Fade in animation test</p>
+                </div>
+                <div class="workflow-step">
+                    <h3>Step 2</h3>
+                    <p>Fade in animation test</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Trust 1</h3>
+                    <p>Fade in test</p>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-lock"></i>
+                    <h3>Trust 2</h3>
+                    <p>Fade in test</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <div class="container">
+            <h2>End of Page</h2>
+            <p>The back-to-top button should be visible now. Click it to scroll back to the top.</p>
+        </div>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    
+    <script src="enhancements.js?v=1.0"></script>
+    <script>
+        console.log('Test page loaded. Check console for initialization messages.');
+    </script>
+</body>
+</html>

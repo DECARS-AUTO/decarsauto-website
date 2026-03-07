@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浏览器语言自动检测测试 - DecarsAuto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 900px;
+            margin: 100px auto 50px;
+            padding: 40px;
+        }
+        .test-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .test-card h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+        }
+        .badge-auto {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-manual {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-lang {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .test-button {
+            padding: 12px 24px;
+            margin: 10px 10px 10px 0;
+            background: var(--primary-color);
+            color: var(--bg-white);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .test-button:hover {
+            background: var(--accent-color);
+        }
+        .test-button.secondary {
+            background: var(--bg-light);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        .test-button.secondary:hover {
+            background: var(--bg-white);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .info-value {
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+        .instruction {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        body.dark-mode .instruction {
+            background: #1a3a52;
+            border-left-color: #64b5f6;
+        }
+        .code-block {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-dropdown-btn" id="lang-dropdown-btn">
+            <i class="fas fa-globe"></i>
+            <span id="current-lang">EN</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lang-dropdown-menu" id="lang-dropdown-menu">
+            <button class="lang-option" data-lang="en">
+                <span class="flag-icon">🇬🇧</span>
+                <span>English</span>
+            </button>
+            <button class="lang-option" data-lang="de">
+                <span class="flag-icon">🇩🇪</span>
+                <span>Deutsch</span>
+            </button>
+            <button class="lang-option" data-lang="zh">
+                <span class="flag-icon">🇨🇳</span>
+                <span>中文</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h1 style="text-align: center; color: var(--primary-color); margin-bottom: 40px;">
+            🌍 浏览器语言自动检测测试
+        </h1>
+
+        <!-- Current Status Card -->
+        <div class="test-card">
+            <h2>📊 当前状态</h2>
+            <div class="info-row">
+                <span class="info-label">浏览器语言:</span>
+                <span class="info-value" id="browser-lang">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">检测到的语言:</span>
+                <span class="info-value" id="detected-lang">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">工作模式:</span>
+                <span class="info-value" id="current-mode">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">当前语言:</span>
+                <span class="info-value" id="current-language">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">LocalStorage (languagePreference):</span>
+                <span class="info-value" id="ls-preference">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">LocalStorage (language):</span>
+                <span class="info-value" id="ls-language">检测中...</span>
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="test-button" onclick="updateStatus()">🔄 刷新状态</button>
+            </div>
+        </div>
+
+        <!-- Instructions Card -->
+        <div class="test-card">
+            <h2>📝 使用说明</h2>
+            
+            <div class="instruction">
+                <strong>🎯 方式 1: 手动切换</strong><br>
+                点击语言切换器 → 选择语言 → 进入手动模式
+            </div>
+
+            <div class="instruction">
+                <strong>🎯 方式 2: 自动模式</strong><br>
+                长按（1秒）语言切换器按钮 → 显示通知 → 进入自动模式
+            </div>
+
+            <h3 style="margin-top: 25px; color: var(--primary-color);">工作模式说明：</h3>
+            <ul style="line-height: 2; color: var(--text-secondary);">
+                <li><strong>自动模式（默认）</strong>: 跟随浏览器语言设置</li>
+                <li><strong>手动模式</strong>: 用户手动选择，不受浏览器影响</li>
+            </ul>
+
+            <h3 style="margin-top: 25px; color: var(--primary-color);">语言映射规则：</h3>
+            <ul style="line-height: 2; color: var(--text-secondary);">
+                <li><strong>zh-CN, zh-TW, zh-*</strong> → 中文 (ZH)</li>
+                <li><strong>de-DE, de-AT, de-*</strong> → 德语 (DE)</li>
+                <li><strong>en-US, en-GB, 其他</strong> → 英语 (EN)</li>
+            </ul>
+        </div>
+
+        <!-- Test Actions Card -->
+        <div class="test-card">
+            <h2>🧪 测试操作</h2>
+            
+            <h3 style="margin-bottom: 15px; color: var(--text-color);">快速切换模式：</h3>
+            <button class="test-button" onclick="setAutoMode()">🤖 切换到自动模式</button>
+            <button class="test-button" onclick="setManualEN()">🇬🇧 手动 - English</button>
+            <button class="test-button" onclick="setManualDE()">🇩🇪 手动 - Deutsch</button>
+            <button class="test-button" onclick="setManualZH()">🇨🇳 手动 - 中文</button>
+            
+            <h3 style="margin: 25px 0 15px; color: var(--text-color);">测试按钮：</h3>
+            <button class="test-button secondary" onclick="clearStorage()">清除存储</button>
+            <button class="test-button secondary" onclick="location.reload()">刷新页面</button>
+        </div>
+
+        <!-- Language Mapping Card -->
+        <div class="test-card">
+            <h2>🗺️ 语言映射测试</h2>
+            <div class="code-block" id="mapping-test">
+                检测中...
+            </div>
+        </div>
+
+        <!-- Debug Console Card -->
+        <div class="test-card">
+            <h2>🐛 调试命令</h2>
+            
+            <h3 style="margin-bottom: 10px; color: var(--text-color);">在浏览器控制台运行：</h3>
+            
+            <div class="code-block">
+// 查看当前状态
+console.log('Browser Lang:', navigator.language);
+console.log('Detected:', detectBrowserLanguage());
+console.log('Preference:', localStorage.getItem('languagePreference'));
+console.log('Language:', localStorage.getItem('language'));
+            </div>
+
+            <div class="code-block">
+// 强制切换到自动模式
+localStorage.setItem('languagePreference', 'auto');
+location.reload();
+            </div>
+
+            <div class="code-block">
+// 强制切换到手动中文模式
+localStorage.setItem('languagePreference', 'manual');
+localStorage.setItem('language', 'zh');
+location.reload();
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Detect browser language (same logic as in script.js)
+        function detectBrowserLanguage() {
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            
+            if (browserLang.startsWith('zh')) {
+                return 'zh';
+            } else if (browserLang.startsWith('de')) {
+                return 'de';
+            } else {
+                return 'en';
+            }
+        }
+
+        // Update status display
+        function updateStatus() {
+            // Browser language
+            const browserLang = navigator.language || navigator.userLanguage;
+            document.getElementById('browser-lang').textContent = browserLang;
+            
+            // Detected language
+            const detected = detectBrowserLanguage();
+            document.getElementById('detected-lang').innerHTML = 
+                `<span class="status-badge badge-lang">${detected.toUpperCase()}</span>`;
+            
+            // Current mode
+            const preference = localStorage.getItem('languagePreference') || 'auto';
+            document.getElementById('current-mode').innerHTML = 
+                preference === 'auto' 
+                ? '<span class="status-badge badge-auto">🤖 自动模式</span>' 
+                : '<span class="status-badge badge-manual">🎛️ 手动模式</span>';
+            
+            // Current language
+            const currentLang = localStorage.getItem('language') || detected;
+            document.getElementById('current-language').innerHTML = 
+                `<span class="status-badge badge-lang">${currentLang.toUpperCase()}</span>`;
+            
+            // LocalStorage values
+            document.getElementById('ls-preference').textContent = 
+                localStorage.getItem('languagePreference') || '(未设置)';
+            document.getElementById('ls-language').textContent = 
+                localStorage.getItem('language') || '(未设置)';
+            
+            // Mapping test
+            const mappingTest = `
+浏览器语言: ${browserLang}
+检测逻辑:
+  - 以 'zh' 开头 → 中文 (ZH)
+  - 以 'de' 开头 → 德语 (DE)
+  - 其他 → 英语 (EN)
+检测结果: ${detected.toUpperCase()}
+            `.trim();
+            document.getElementById('mapping-test').textContent = mappingTest;
+        }
+
+        // Test functions
+        function setAutoMode() {
+            localStorage.setItem('languagePreference', 'auto');
+            const autoLang = detectBrowserLanguage();
+            localStorage.setItem('language', autoLang);
+            location.reload();
+        }
+
+        function setManualEN() {
+            localStorage.setItem('languagePreference', 'manual');
+            localStorage.setItem('language', 'en');
+            location.reload();
+        }
+
+        function setManualDE() {
+            localStorage.setItem('languagePreference', 'manual');
+            localStorage.setItem('language', 'de');
+            location.reload();
+        }
+
+        function setManualZH() {
+            localStorage.setItem('languagePreference', 'manual');
+            localStorage.setItem('language', 'zh');
+            location.reload();
+        }
+
+        function clearStorage() {
+            if (confirm('确定要清除所有语言设置吗？')) {
+                localStorage.removeItem('languagePreference');
+                localStorage.removeItem('language');
+                location.reload();
+            }
+        }
+
+        // Auto-update status every 2 seconds
+        setInterval(updateStatus, 2000);
+        
+        // Initial update
+        setTimeout(updateStatus, 500);
+
+        // Log initial state
+        console.log('=== DecarsAuto 浏览器语言自动检测测试 ===');
+        console.log('浏览器语言:', navigator.language);
+        console.log('检测到的语言:', detectBrowserLanguage());
+        console.log('当前模式:', localStorage.getItem('languagePreference') || 'auto');
+    </script>
+</body>
+</html>

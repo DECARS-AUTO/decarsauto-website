@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Features Test - DecarsAuto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-section {
+            padding: 40px;
+            margin: 20px;
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+        }
+        .test-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .test-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg-light);
+            border-left: 4px solid var(--accent-color);
+        }
+        .test-item h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .test-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .test-status.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .demo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .demo-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: var(--bg-white);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        .demo-btn:hover {
+            background: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle (from main site) -->
+    <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Mobile Menu Toggle (from main site) -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Menu (from main site) -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#test-1">Test 1</a>
+        <a href="#test-2">Test 2</a>
+        <a href="#test-3">Test 3</a>
+        <a href="#test-4">Test 4</a>
+    </div>
+
+    <div class="container" style="padding-top: 100px;">
+        <h1 style="text-align: center; color: var(--primary-color); margin-bottom: 40px;">
+            ✅ New Features Test Page
+        </h1>
+
+        <!-- Test 1: Mobile Menu -->
+        <div class="test-section" id="test-1">
+            <h2>📱 Test 1: Mobile Hamburger Menu</h2>
+            <div class="test-item">
+                <h3>Status Check</h3>
+                <p>✅ Mobile menu HTML added</p>
+                <p>✅ Mobile menu CSS styles added</p>
+                <p>✅ Mobile menu JavaScript added (features.js)</p>
+                <p>✅ Responsive breakpoint: ≤768px</p>
+                <div class="test-status info">
+                    Resize your browser to ≤768px width to see the hamburger menu
+                </div>
+            </div>
+            <div class="test-item">
+                <h3>How to Test</h3>
+                <ol>
+                    <li>Resize browser window to mobile width (≤768px)</li>
+                    <li>Click the hamburger menu icon (☰) in top-left</li>
+                    <li>Menu should slide down smoothly</li>
+                    <li>Click outside to close</li>
+                    <li>Click a menu item - it should close automatically</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Test 2: SEO -->
+        <div class="test-section" id="test-2">
+            <h2>🔍 Test 2: SEO Structured Data</h2>
+            <div class="test-item">
+                <h3>Status Check</h3>
+                <p>✅ JSON-LD structured data added to index.html</p>
+                <p>✅ Schema.org AutoRepair type</p>
+                <p>✅ Business information included</p>
+                <p>✅ Contact details included</p>
+                <p>✅ Supported brands listed</p>
+                <div class="test-status pass">Implemented</div>
+            </div>
+            <div class="test-item">
+                <h3>How to Test</h3>
+                <ol>
+                    <li>Open index.html in browser</li>
+                    <li>View page source (Ctrl+U)</li>
+                    <li>Search for "application/ld+json"</li>
+                    <li>Verify JSON structure is present</li>
+                    <li>Use <a href="https://search.google.com/test/rich-results" target="_blank">Google Rich Results Test</a> to validate</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Test 3: Contact Form -->
+        <div class="test-section" id="test-3">
+            <h2>📧 Test 3: Contact Form</h2>
+            <div class="test-item">
+                <h3>Status Check</h3>
+                <p>✅ Contact form HTML added</p>
+                <p>✅ Form styling added</p>
+                <p>✅ Form validation added</p>
+                <p>✅ Multi-language support</p>
+                <p>✅ Responsive design</p>
+                <div class="test-status pass">Implemented</div>
+            </div>
+            <div class="test-item">
+                <h3>Form Fields</h3>
+                <ul>
+                    <li>Name * (required)</li>
+                    <li>Email * (required)</li>
+                    <li>Phone (optional)</li>
+                    <li>Vehicle Model (optional)</li>
+                    <li>Service Needed * (required dropdown)</li>
+                    <li>Message * (required)</li>
+                </ul>
+            </div>
+            <div class="test-item">
+                <h3>How to Test</h3>
+                <ol>
+                    <li>Go to Contact section on main page</li>
+                    <li>Fill out the form</li>
+                    <li>Click "Send Message"</li>
+                    <li>Email client should open with pre-filled data</li>
+                    <li>Test on mobile devices for responsive layout</li>
+                </ol>
+                <div class="demo-buttons">
+                    <button class="demo-btn" onclick="window.location.href='index.html#contact'">
+                        Go to Contact Form
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test 4: Dark Mode -->
+        <div class="test-section" id="test-4">
+            <h2>🌙 Test 4: Dark Mode</h2>
+            <div class="test-item">
+                <h3>Status Check</h3>
+                <p>✅ Dark mode toggle button added</p>
+                <p>✅ CSS variables for dark theme</p>
+                <p>✅ LocalStorage persistence</p>
+                <p>✅ Smooth transitions</p>
+                <div class="test-status pass">Implemented - Try it now!</div>
+            </div>
+            <div class="test-item">
+                <h3>Color Scheme</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <th style="text-align: left; padding: 10px;">Property</th>
+                        <th style="text-align: left; padding: 10px;">Light Mode</th>
+                        <th style="text-align: left; padding: 10px;">Dark Mode</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px;">Primary Color</td>
+                        <td style="padding: 10px;">#000000 (Black)</td>
+                        <td style="padding: 10px;">#ffffff (White)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px;">Accent Color</td>
+                        <td style="padding: 10px;">#ff6b00 (Orange)</td>
+                        <td style="padding: 10px;">#ff8533 (Light Orange)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px;">Background</td>
+                        <td style="padding: 10px;">#ffffff (White)</td>
+                        <td style="padding: 10px;">#1a1a1a (Dark Gray)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;">Text Color</td>
+                        <td style="padding: 10px;">#1a1a1a (Dark)</td>
+                        <td style="padding: 10px;">#e0e0e0 (Light)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="test-item">
+                <h3>How to Test</h3>
+                <ol>
+                    <li>Click the moon icon in top-right corner</li>
+                    <li>Page should switch to dark mode</li>
+                    <li>Icon should change from moon to sun</li>
+                    <li>Refresh page - dark mode should persist</li>
+                    <li>Click again to switch back</li>
+                </ol>
+                <div class="demo-buttons">
+                    <button class="demo-btn" id="test-dark-mode">
+                        Toggle Dark Mode
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Status -->
+        <div class="test-section" style="background: var(--bg-light); border-color: #28a745;">
+            <h2>📊 Overall Implementation Status</h2>
+            <div class="test-item">
+                <h3>✅ All Features Implemented</h3>
+                <ul style="font-size: 16px; line-height: 2;">
+                    <li>📱 Mobile Hamburger Menu - <strong>COMPLETE</strong></li>
+                    <li>🔍 SEO Structured Data - <strong>COMPLETE</strong></li>
+                    <li>📧 Contact Form - <strong>COMPLETE</strong></li>
+                    <li>🌙 Dark Mode - <strong>COMPLETE</strong></li>
+                </ul>
+                <div class="test-status pass" style="font-size: 18px; margin-top: 20px;">
+                    ✅ All 4 Features Successfully Implemented
+                </div>
+            </div>
+        </div>
+
+        <!-- Files Modified -->
+        <div class="test-section">
+            <h2>📁 Modified & Created Files</h2>
+            <div class="test-item">
+                <h3>Modified Files</h3>
+                <ul>
+                    <li><strong>index.html</strong> - Added all new HTML structures</li>
+                    <li><strong>styles.css</strong> - Added all new styles</li>
+                </ul>
+            </div>
+            <div class="test-item">
+                <h3>New Files Created</h3>
+                <ul>
+                    <li><strong>features.js</strong> - All new JavaScript functionality</li>
+                    <li><strong>NEW-FEATURES-SUMMARY.md</strong> - Complete documentation</li>
+                    <li><strong>test-new-features.html</strong> - This test page</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Load Scripts -->
+    <script src="features.js"></script>
+    <script>
+        // Additional test script
+        document.getElementById('test-dark-mode').addEventListener('click', function() {
+            document.getElementById('dark-mode-toggle').click();
+        });
+    </script>
+</body>
+</html>

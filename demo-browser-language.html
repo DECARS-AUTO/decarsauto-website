@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Language Auto-Detection Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .info-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .info-box p {
+            color: #666;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+        
+        .status-auto {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-manual {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-lang {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .demo-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 10px 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .demo-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .demo-btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #333;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .instruction {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .instruction strong {
+            color: #856404;
+        }
+        
+        @media (max-width: 600px) {
+            .demo-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .demo-btn {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🌍 Browser Language Auto-Detection</h1>
+        <p class="subtitle">Intelligent language switching with auto/manual modes</p>
+        
+        <!-- Current Status -->
+        <div class="info-box">
+            <h3>📊 Current Status</h3>
+            <p><strong>Your Browser:</strong> <span id="browser-lang" class="status status-lang">Loading...</span></p>
+            <p><strong>Detected Language:</strong> <span id="detected-lang" class="status status-lang">Loading...</span></p>
+            <p><strong>Current Mode:</strong> <span id="current-mode" class="status">Loading...</span></p>
+        </div>
+        
+        <!-- Features -->
+        <div class="info-box">
+            <h3>✨ Features</h3>
+            <ul class="feature-list">
+                <li>Automatic browser language detection</li>
+                <li>Smart language mapping (EN/DE/ZH)</li>
+                <li>Auto/Manual mode switching</li>
+                <li>Long-press to toggle auto mode</li>
+                <li>Persistent user preferences</li>
+            </ul>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instruction">
+            <strong>💡 How to use:</strong><br>
+            <strong>Method 1:</strong> Click language switcher → Select language → Manual mode<br>
+            <strong>Method 2:</strong> Long-press (1s) switcher button → Auto mode
+        </div>
+        
+        <!-- Test Buttons -->
+        <div style="margin-top: 30px;">
+            <button class="demo-btn" onclick="setAutoMode()">🤖 Auto Mode</button>
+            <button class="demo-btn" onclick="setManualEN()">🇬🇧 English</button>
+            <button class="demo-btn" onclick="setManualDE()">🇩🇪 Deutsch</button>
+            <button class="demo-btn" onclick="setManualZH()">🇨🇳 中文</button>
+            <button class="demo-btn secondary" onclick="clearStorage()">Clear</button>
+            <button class="demo-btn secondary" onclick="location.reload()">Reload</button>
+        </div>
+        
+        <!-- Footer -->
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; text-align: center; color: #888; font-size: 14px;">
+            <p>🧪 <a href="test-browser-language.html" style="color: #667eea; text-decoration: none;">Open Full Test Page</a></p>
+            <p style="margin-top: 10px;">DecarsAuto © 2024</p>
+        </div>
+    </div>
+
+    <script>
+        // Detect browser language
+        function detectBrowserLanguage() {
+            const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+            
+            if (browserLang.startsWith('zh')) {
+                return 'zh';
+            } else if (browserLang.startsWith('de')) {
+                return 'de';
+            } else {
+                return 'en';
+            }
+        }
+
+        // Update status display
+        function updateStatus() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const detected = detectBrowserLanguage();
+            const preference = localStorage.getItem('languagePreference') || 'auto';
+            
+            document.getElementById('browser-lang').textContent = browserLang;
+            document.getElementById('detected-lang').textContent = detected.toUpperCase();
+            
+            const modeEl = document.getElementById('current-mode');
+            if (preference === 'auto') {
+                modeEl.textContent = '🤖 Auto Mode';
+                modeEl.className = 'status status-auto';
+            } else {
+                modeEl.textContent = '🎛️ Manual Mode';
+                modeEl.className = 'status status-manual';
+            }
+        }
+
+        // Test functions
+        function setAutoMode() {
+            localStorage.setItem('languagePreference', 'auto');
+            const autoLang = detectBrowserLanguage();
+            localStorage.setItem('language', autoLang);
+            alert(`✅ Switched to Auto Mode\nBrowser language: ${autoLang.toUpperCase()}`);
+            updateStatus();
+        }
+
+        function setManualEN() {
+            localStorage.setItem('languagePreference', 'manual');
+            localStorage.setItem('language', 'en');
+            alert('✅ Switched to Manual Mode\nLanguage: English (EN)');
+            updateStatus();
+        }
+
+        function setManualDE() {
+            localStorage.setItem('languagePreference', 'manual');
+            localStorage.setItem('language', 'de');
+            alert('✅ Switched to Manual Mode\nLanguage: Deutsch (DE)');
+            updateStatus();
+        }
+
+        function setManualZH() {
+            localStorage.setItem('languagePreference', 'manual');
+            localStorage.setItem('language', 'zh');
+            alert('✅ Switched to Manual Mode\nLanguage: 中文 (ZH)');
+            updateStatus();
+        }
+
+        function clearStorage() {
+            if (confirm('Clear all language settings?')) {
+                localStorage.removeItem('languagePreference');
+                localStorage.removeItem('language');
+                alert('✅ Settings cleared!');
+                updateStatus();
+            }
+        }
+
+        // Initial update
+        updateStatus();
+        
+        // Auto-update every 2 seconds
+        setInterval(updateStatus, 2000);
+        
+        console.log('=== Browser Language Auto-Detection Demo ===');
+        console.log('Browser:', navigator.language);
+        console.log('Detected:', detectBrowserLanguage());
+        console.log('Mode:', localStorage.getItem('languagePreference') || 'auto');
+    </script>
+</body>
+</html>

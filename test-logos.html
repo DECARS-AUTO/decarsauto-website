@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌Logo测试 - DecarsAuto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+        
+        .status {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .logo-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 50%;
+            padding: 20px;
+        }
+        
+        .logo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        
+        .file-info {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .success {
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .error {
+            color: #f44336;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+        
+        .btn {
+            display: inline-block;
+            margin: 20px 10px;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 VAG 品牌 Logo 测试</h1>
+        
+        <div class="status" id="status">
+            <strong>✅ 状态:</strong> 所有7个品牌logo已成功下载到 <code>images/brands/</code>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/volkswagen-logo.png" alt="Volkswagen" 
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">Volkswagen</div>
+                <div class="file-info">大众汽车<br>19,027 bytes</div>
+            </div>
+            
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/audi-logo.png" alt="Audi"
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">Audi</div>
+                <div class="file-info">奥迪<br>33,767 bytes</div>
+            </div>
+            
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/skoda-logo.svg" alt="Škoda"
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">Škoda</div>
+                <div class="file-info">斯柯达<br>950 bytes</div>
+            </div>
+            
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/seat-logo.png" alt="SEAT"
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">SEAT</div>
+                <div class="file-info">西雅特<br>23,723 bytes</div>
+            </div>
+            
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/bentley-logo.svg" alt="Bentley"
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">Bentley</div>
+                <div class="file-info">宾利<br>197,934 bytes</div>
+            </div>
+            
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/lamborghini-logo.png" alt="Lamborghini"
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">Lamborghini</div>
+                <div class="file-info">兰博基尼<br>34,172 bytes</div>
+            </div>
+            
+            <div class="card">
+                <div class="logo-container">
+                    <img src="images/brands/bugatti-logo.svg" alt="Bugatti"
+                         onerror="this.parentElement.parentElement.classList.add('error-card');">
+                </div>
+                <div class="brand-name">Bugatti</div>
+                <div class="file-info">布加迪<br>13,282 bytes</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="btn">← 返回主页</a>
+            <a href="test-enhancements.html" class="btn">测试增强功能 →</a>
+        </div>
+        
+        <div class="footer">
+            <p><strong>测试说明:</strong></p>
+            <p>所有logo应该正常显示。如果看到空白，请检查 <code>images/brands/</code> 文件夹。</p>
+            <p style="margin-top: 10px;">✅ 本地托管 = 快速加载 + 100%可靠性</p>
+        </div>
+    </div>
+    
+    <script>
+        // 检测图片加载状态
+        window.addEventListener('load', () => {
+            const images = document.querySelectorAll('img');
+            let successCount = 0;
+            let errorCount = 0;
+            
+            images.forEach(img => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    successCount++;
+                } else {
+                    errorCount++;
+                }
+            });
+            
+            const statusDiv = document.getElementById('status');
+            if (errorCount > 0) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `<strong>⚠️ 警告:</strong> ${errorCount} 个logo加载失败，${successCount} 个成功。请检查文件路径。`;
+            } else {
+                statusDiv.innerHTML = `<strong>✅ 完美!</strong> 所有 ${successCount} 个品牌logo加载成功！`;
+            }
+            
+            console.log(`Logo加载状态: ${successCount} 成功, ${errorCount} 失败`);
+        });
+    </script>
+</body>
+</html>

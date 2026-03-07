@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo快速测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #1a1a2e;
+            text-align: center;
+        }
+        .test-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .logo-card img {
+            max-width: 120px;
+            max-height: 120px;
+            margin: 10px 0;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #4caf50; color: white; }
+        .error { background: #f44336; color: white; }
+        .info {
+            background: #2196F3;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚗 Logo快速测试</h1>
+    
+    <div class="info">
+        <strong>📍 当前测试路径：</strong> images/brands/<br>
+        <strong>🔄 刷新时间：</strong> <span id="time"></span>
+    </div>
+    
+    <div class="test-container">
+        <div class="logo-card">
+            <h3>Volkswagen</h3>
+            <img src="images/brands/volkswagen-logo.png" 
+                 alt="VW" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+        
+        <div class="logo-card">
+            <h3>Audi</h3>
+            <img src="images/brands/audi-logo.png" 
+                 alt="Audi" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+        
+        <div class="logo-card">
+            <h3>Škoda</h3>
+            <img src="images/brands/skoda-logo.svg" 
+                 alt="Skoda" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+        
+        <div class="logo-card">
+            <h3>SEAT</h3>
+            <img src="images/brands/seat-logo.png" 
+                 alt="SEAT" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+        
+        <div class="logo-card">
+            <h3>Bentley</h3>
+            <img src="images/brands/bentley-logo.svg" 
+                 alt="Bentley" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+        
+        <div class="logo-card">
+            <h3>Lamborghini</h3>
+            <img src="images/brands/lamborghini-logo.png" 
+                 alt="Lamborghini" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+        
+        <div class="logo-card">
+            <h3>Bugatti</h3>
+            <img src="images/brands/bugatti-logo.svg" 
+                 alt="Bugatti" 
+                 onload="this.nextElementSibling.className='status success'; this.nextElementSibling.textContent='✅ 加载成功'"
+                 onerror="this.nextElementSibling.className='status error'; this.nextElementSibling.textContent='❌ 加载失败'">
+            <div class="status">加载中...</div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+        <button onclick="location.reload()" style="padding: 15px 30px; font-size: 16px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            🔄 重新测试
+        </button>
+        <button onclick="location.href='index.html'" style="padding: 15px 30px; font-size: 16px; background: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+            ← 返回主页
+        </button>
+    </div>
+    
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleTimeString('zh-CN');
+        
+        // 添加时间戳到所有图片URL，避免缓存
+        const timestamp = '?t=' + Date.now();
+        document.querySelectorAll('img').forEach(img => {
+            img.src = img.src + timestamp;
+        });
+    </script>
+</body>
+</html>

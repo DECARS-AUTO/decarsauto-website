@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色模式自动切换测试 - DecarsAuto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 900px;
+            margin: 100px auto 50px;
+            padding: 40px;
+        }
+        .test-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .test-card h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+        }
+        .badge-auto {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-manual {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-dark {
+            background: #333;
+            color: #fff;
+        }
+        .badge-light {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #dee2e6;
+        }
+        .test-button {
+            padding: 12px 24px;
+            margin: 10px 10px 10px 0;
+            background: var(--primary-color);
+            color: var(--bg-white);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .test-button:hover {
+            background: var(--accent-color);
+        }
+        .test-button.secondary {
+            background: var(--bg-light);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        .test-button.secondary:hover {
+            background: var(--bg-white);
+        }
+        .code-block {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .info-value {
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+        .instruction {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        body.dark-mode .instruction {
+            background: #1a3a52;
+            border-left-color: #64b5f6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="test-container">
+        <h1 style="text-align: center; color: var(--primary-color); margin-bottom: 40px;">
+            🌙 深色模式自动切换测试
+        </h1>
+
+        <!-- Current Status Card -->
+        <div class="test-card">
+            <h2>📊 当前状态</h2>
+            <div class="info-row">
+                <span class="info-label">工作模式:</span>
+                <span class="info-value" id="current-mode">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">当前主题:</span>
+                <span class="info-value" id="current-theme">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">系统偏好:</span>
+                <span class="info-value" id="system-preference">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">LocalStorage (darkModePreference):</span>
+                <span class="info-value" id="ls-preference">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">LocalStorage (darkMode):</span>
+                <span class="info-value" id="ls-darkmode">检测中...</span>
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="test-button" onclick="updateStatus()">🔄 刷新状态</button>
+            </div>
+        </div>
+
+        <!-- Instructions Card -->
+        <div class="test-card">
+            <h2>📝 使用说明</h2>
+            
+            <div class="instruction">
+                <strong>🎯 方式 1: 手动切换</strong><br>
+                点击右上角的 🌙/☀️ 图标 → 立即切换主题 → 进入手动模式
+            </div>
+
+            <div class="instruction">
+                <strong>🎯 方式 2: 自动模式</strong><br>
+                长按（1秒）右上角的 🌙/☀️ 图标 → 显示通知 → 进入自动模式
+            </div>
+
+            <h3 style="margin-top: 25px; color: var(--primary-color);">工作模式说明：</h3>
+            <ul style="line-height: 2; color: var(--text-secondary);">
+                <li><strong>自动模式（默认）</strong>: 跟随系统主题设置，系统切换时自动同步</li>
+                <li><strong>手动模式</strong>: 用户手动控制，不受系统影响</li>
+            </ul>
+        </div>
+
+        <!-- Test Actions Card -->
+        <div class="test-card">
+            <h2>🧪 测试操作</h2>
+            
+            <h3 style="margin-bottom: 15px; color: var(--text-color);">快速切换模式：</h3>
+            <button class="test-button" onclick="setAutoMode()">🤖 切换到自动模式</button>
+            <button class="test-button" onclick="setManualLight()">☀️ 手动 - 浅色</button>
+            <button class="test-button" onclick="setManualDark()">🌙 手动 - 深色</button>
+            
+            <h3 style="margin: 25px 0 15px; color: var(--text-color);">测试按钮：</h3>
+            <button class="test-button secondary" onclick="toggleTheme()">切换主题</button>
+            <button class="test-button secondary" onclick="clearStorage()">清除存储</button>
+            <button class="test-button secondary" onclick="location.reload()">刷新页面</button>
+        </div>
+
+        <!-- System Info Card -->
+        <div class="test-card">
+            <h2>💻 系统信息</h2>
+            <div class="code-block" id="system-info">
+                检测中...
+            </div>
+        </div>
+
+        <!-- Debug Console Card -->
+        <div class="test-card">
+            <h2>🐛 调试命令</h2>
+            
+            <h3 style="margin-bottom: 10px; color: var(--text-color);">在浏览器控制台运行：</h3>
+            
+            <div class="code-block">
+// 查看当前状态
+console.log('Preference:', localStorage.getItem('darkModePreference'));
+console.log('Dark Mode:', localStorage.getItem('darkMode'));
+console.log('System:', window.matchMedia('(prefers-color-scheme: dark)').matches);
+            </div>
+
+            <div class="code-block">
+// 强制切换到自动模式
+localStorage.setItem('darkModePreference', 'auto');
+location.reload();
+            </div>
+
+            <div class="code-block">
+// 强制切换到手动深色模式
+localStorage.setItem('darkModePreference', 'manual');
+localStorage.setItem('darkMode', 'enabled');
+location.reload();
+            </div>
+        </div>
+
+        <!-- Browser Compatibility Card -->
+        <div class="test-card">
+            <h2>🌐 浏览器兼容性</h2>
+            <div class="info-row">
+                <span class="info-label">prefers-color-scheme 支持:</span>
+                <span class="info-value" id="browser-support">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">matchMedia 支持:</span>
+                <span class="info-value" id="matchmedia-support">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">localStorage 支持:</span>
+                <span class="info-value" id="localstorage-support">检测中...</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="features.js"></script>
+    <script>
+        // Update status display
+        function updateStatus() {
+            // Current mode
+            const preference = localStorage.getItem('darkModePreference') || 'auto';
+            document.getElementById('current-mode').innerHTML = 
+                preference === 'auto' 
+                ? '<span class="status-badge badge-auto">🤖 自动模式</span>' 
+                : '<span class="status-badge badge-manual">🎛️ 手动模式</span>';
+            
+            // Current theme
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('current-theme').innerHTML = 
+                isDark 
+                ? '<span class="status-badge badge-dark">🌙 深色主题</span>' 
+                : '<span class="status-badge badge-light">☀️ 浅色主题</span>';
+            
+            // System preference
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.getElementById('system-preference').innerHTML = 
+                systemPrefersDark 
+                ? '<span class="status-badge badge-dark">🌙 深色</span>' 
+                : '<span class="status-badge badge-light">☀️ 浅色</span>';
+            
+            // LocalStorage values
+            document.getElementById('ls-preference').textContent = 
+                localStorage.getItem('darkModePreference') || '(未设置)';
+            document.getElementById('ls-darkmode').textContent = 
+                localStorage.getItem('darkMode') || '(未设置)';
+            
+            // System info
+            const systemInfo = `
+浏览器: ${navigator.userAgent}
+系统偏好深色模式: ${systemPrefersDark}
+当前主题: ${isDark ? '深色' : '浅色'}
+工作模式: ${preference}
+            `.trim();
+            document.getElementById('system-info').textContent = systemInfo;
+            
+            // Browser support
+            document.getElementById('browser-support').innerHTML = 
+                window.matchMedia('(prefers-color-scheme: dark)') 
+                ? '✅ 支持' : '❌ 不支持';
+            document.getElementById('matchmedia-support').innerHTML = 
+                window.matchMedia ? '✅ 支持' : '❌ 不支持';
+            document.getElementById('localstorage-support').innerHTML = 
+                (typeof(Storage) !== "undefined") ? '✅ 支持' : '❌ 不支持';
+        }
+
+        // Test functions
+        function setAutoMode() {
+            localStorage.setItem('darkModePreference', 'auto');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (systemPrefersDark) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            updateStatus();
+            alert('已切换到自动模式，跟随系统主题');
+        }
+
+        function setManualLight() {
+            localStorage.setItem('darkModePreference', 'manual');
+            localStorage.setItem('darkMode', 'disabled');
+            document.body.classList.remove('dark-mode');
+            updateStatus();
+            alert('已切换到手动浅色模式');
+        }
+
+        function setManualDark() {
+            localStorage.setItem('darkModePreference', 'manual');
+            localStorage.setItem('darkMode', 'enabled');
+            document.body.classList.add('dark-mode');
+            updateStatus();
+            alert('已切换到手动深色模式');
+        }
+
+        function toggleTheme() {
+            document.getElementById('dark-mode-toggle').click();
+            setTimeout(updateStatus, 100);
+        }
+
+        function clearStorage() {
+            if (confirm('确定要清除所有深色模式设置吗？')) {
+                localStorage.removeItem('darkModePreference');
+                localStorage.removeItem('darkMode');
+                location.reload();
+            }
+        }
+
+        // Auto-update status every 2 seconds
+        setInterval(updateStatus, 2000);
+        
+        // Initial update
+        setTimeout(updateStatus, 500);
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            console.log('系统主题变化:', e.matches ? '深色' : '浅色');
+            updateStatus();
+        });
+    </script>
+</body>
+</html>

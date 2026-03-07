@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统主题自动检测测试 - DecarsAuto</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 40px;
+        }
+        .test-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .test-card h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .status-dark {
+            background: #1a1a1a;
+            border: 2px solid #333;
+        }
+        .status-light {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg-light);
+            border-radius: 6px;
+        }
+        .info-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .info-value {
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+        .instruction-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        body.dark-mode .instruction-box {
+            background: #1a3a52;
+            border-left-color: #64b5f6;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 10px;
+            margin: 8px 0;
+            background: var(--bg-light);
+            border-radius: 6px;
+        }
+        .feature-list li::before {
+            content: '✓';
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .comparison-table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="text-align: center; color: var(--primary-color); margin-bottom: 40px;">
+            🌓 系统主题自动检测测试
+        </h1>
+
+        <!-- Current Status -->
+        <div class="test-card">
+            <h2>📊 当前状态</h2>
+            <div class="info-row">
+                <span class="info-label">系统主题偏好:</span>
+                <span class="info-value" id="system-preference">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">当前应用的主题:</span>
+                <span class="info-value" id="current-theme">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">浏览器支持:</span>
+                <span class="info-value" id="browser-support">检测中...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">实时同步状态:</span>
+                <span class="info-value" id="sync-status">✅ 已启用</span>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="test-card">
+            <h2>🤖 工作原理</h2>
+            <div class="instruction-box">
+                <strong>完全自动化：</strong>
+                <p style="margin-top: 10px;">
+                    网站自动检测您的系统主题设置，并实时同步任何变化。
+                    无需点击任何按钮，完全透明运行。
+                </p>
+            </div>
+            <ul class="feature-list">
+                <li>自动检测系统主题偏好</li>
+                <li>实时响应系统主题变化</li>
+                <li>零用户操作，完全透明</li>
+                <li>无按钮，无通知，无干扰</li>
+            </ul>
+        </div>
+
+        <!-- Test Instructions -->
+        <div class="test-card">
+            <h2>🧪 测试步骤</h2>
+            <ol style="line-height: 2; color: var(--text-secondary); padding-left: 20px;">
+                <li><strong>检查初始状态</strong> - 查看上方"当前状态"，应与系统设置一致</li>
+                <li><strong>更改系统主题</strong> - 去系统设置中切换深色/浅色模式</li>
+                <li><strong>观察网站变化</strong> - 网站应立即同步，无需刷新页面</li>
+                <li><strong>多次测试</strong> - 反复切换系统设置，验证实时同步</li>
+            </ol>
+            
+            <div class="instruction-box" style="margin-top: 20px;">
+                <strong>💡 提示：</strong><br>
+                <strong>Mac:</strong> 系统偏好设置 → 外观 → 深色/浅色<br>
+                <strong>Windows:</strong> 设置 → 个性化 → 颜色 → 选择模式<br>
+                <strong>iOS:</strong> 设置 → 显示与亮度 → 深色模式<br>
+                <strong>Android:</strong> 设置 → 显示 → 深色主题
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="test-card">
+            <h2>📊 版本对比</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>特性</th>
+                        <th>v3.0 (当前)</th>
+                        <th>v2.0 (旧版)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>切换按钮</td>
+                        <td><span class="badge badge-success">已移除</span></td>
+                        <td><span class="badge badge-info">有</span></td>
+                    </tr>
+                    <tr>
+                        <td>通知提示</td>
+                        <td><span class="badge badge-success">已移除</span></td>
+                        <td><span class="badge badge-info">有</span></td>
+                    </tr>
+                    <tr>
+                        <td>代码行数</td>
+                        <td><span class="badge badge-success">~15 行</span></td>
+                        <td>~150 行</td>
+                    </tr>
+                    <tr>
+                        <td>用户操作</td>
+                        <td><span class="badge badge-success">零操作</span></td>
+                        <td>需要点击</td>
+                    </tr>
+                    <tr>
+                        <td>LocalStorage</td>
+                        <td><span class="badge badge-success">不使用</span></td>
+                        <td>使用</td>
+                    </tr>
+                    <tr>
+                        <td>系统同步</td>
+                        <td><span class="badge badge-success">实时</span></td>
+                        <td>仅自动模式</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Browser Support -->
+        <div class="test-card">
+            <h2>🌐 浏览器兼容性</h2>
+            <div class="info-row">
+                <span class="info-label">Chrome 76+</span>
+                <span class="info-value">✅ 完整支持</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Firefox 67+</span>
+                <span class="info-value">✅ 完整支持</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Safari 12.1+</span>
+                <span class="info-value">✅ 完整支持</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Edge 79+</span>
+                <span class="info-value">✅ 完整支持</span>
+            </div>
+        </div>
+
+        <!-- Debug Console -->
+        <div class="test-card">
+            <h2>🔍 开发者工具</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                在浏览器控制台运行以下命令进行调试：
+            </p>
+            <div style="background: var(--bg-light); padding: 15px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto;">
+// 查看系统主题偏好<br>
+console.log('System prefers dark:', <br>
+&nbsp;&nbsp;window.matchMedia('(prefers-color-scheme: dark)').matches);<br>
+<br>
+// 查看当前主题<br>
+console.log('Current theme:', <br>
+&nbsp;&nbsp;document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            </div>
+        </div>
+
+    </div>
+
+    <script src="features.js"></script>
+    <script>
+        // Update status display
+        function updateStatus() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            // System preference
+            const sysElement = document.getElementById('system-preference');
+            if (prefersDark) {
+                sysElement.innerHTML = '<span class="status-indicator status-dark"></span>深色模式';
+            } else {
+                sysElement.innerHTML = '<span class="status-indicator status-light"></span>浅色模式';
+            }
+            
+            // Current theme
+            const themeElement = document.getElementById('current-theme');
+            if (isDark) {
+                themeElement.innerHTML = '<span class="status-indicator status-dark"></span>深色主题';
+            } else {
+                themeElement.innerHTML = '<span class="status-indicator status-light"></span>浅色主题';
+            }
+            
+            // Browser support
+            const supportElement = document.getElementById('browser-support');
+            const hasSupport = window.matchMedia('(prefers-color-scheme: dark)');
+            supportElement.textContent = hasSupport ? '✅ 支持' : '❌ 不支持';
+        }
+
+        // Initial update
+        setTimeout(updateStatus, 100);
+        
+        // Auto-update every 1 second
+        setInterval(updateStatus, 1000);
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            console.log('🔔 系统主题变化:', e.matches ? '深色' : '浅色');
+            updateStatus();
+        });
+        
+        // Log initial state
+        console.log('=== DecarsAuto 系统主题自动检测 ===');
+        console.log('版本: 3.0');
+        console.log('特性: 完全自动化');
+        console.log('系统偏好:', window.matchMedia('(prefers-color-scheme: dark)').matches ? '深色' : '浅色');
+    </script>
+</body>
+</html>

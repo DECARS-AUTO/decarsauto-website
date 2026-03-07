@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo诊断 - 控制台检查</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .instruction {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .instruction h2 {
+            margin-top: 0;
+            color: #ff6b6b;
+        }
+        .step {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+            border-radius: 5px;
+        }
+        .logo-test {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .logo-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .logo-item img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .ok { background: #4caf50; color: white; }
+        .fail { background: #f44336; color: white; }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="instruction">
+        <h2>🚨 Logo仍然不显示？请按以下步骤操作：</h2>
+        
+        <div class="step">
+            <strong>步骤1：检查下面的测试图片</strong>
+            <p>如果下面的logo能显示，说明文件本身没问题，是index.html的问题</p>
+        </div>
+        
+        <div class="step">
+            <strong>步骤2：按 F12 打开开发者工具</strong>
+            <p>查看Console标签是否有红色错误</p>
+        </div>
+        
+        <div class="step">
+            <strong>步骤3：切换到Network标签</strong>
+            <p>刷新页面，搜索"brands"，查看文件加载状态</p>
+            <ul>
+                <li>✅ 200 = 文件加载成功</li>
+                <li>❌ 404 = 文件未找到</li>
+                <li>⚠️ (cached) = 使用了缓存</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h3>📊 Logo加载测试（带时间戳，避免缓存）</h3>
+    <div class="logo-test" id="logo-test"></div>
+    
+    <h3>📋 诊断信息</h3>
+    <div id="info" style="background: white; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 12px;"></div>
+    
+    <script>
+        const logos = [
+            { name: 'Volkswagen', file: 'volkswagen-logo.png' },
+            { name: 'Audi', file: 'audi-logo.png' },
+            { name: 'Škoda', file: 'skoda-logo.svg' },
+            { name: 'SEAT', file: 'seat-logo.png' },
+            { name: 'Bentley', file: 'bentley-logo.svg' },
+            { name: 'Lamborghini', file: 'lamborghini-logo.png' },
+            { name: 'Bugatti', file: 'bugatti-logo.svg' }
+        ];
+        
+        const container = document.getElementById('logo-test');
+        const infoDiv = document.getElementById('info');
+        let infoText = [];
+        
+        // 添加诊断信息
+        infoText.push('🌐 当前URL: ' + window.location.href);
+        infoText.push('📂 基础路径: ' + window.location.href.substring(0, window.location.href.lastIndexOf('/')));
+        infoText.push('🕐 测试时间: ' + new Date().toLocaleString('zh-CN'));
+        infoText.push('🔄 时间戳: ' + Date.now());
+        infoText.push('');
+        infoText.push('测试结果:');
+        infoText.push('─────────────────────────────────────');
+        
+        logos.forEach((logo, index) => {
+            const item = document.createElement('div');
+            item.className = 'logo-item';
+            item.innerHTML = `
+                <h4>${logo.name}</h4>
+                <img id="img-${index}" alt="${logo.name}">
+                <div class="status" id="status-${index}">加载中...</div>
+            `;
+            container.appendChild(item);
+            
+            const img = document.getElementById(`img-${index}`);
+            const status = document.getElementById(`status-${index}`);
+            
+            // 添加时间戳避免缓存
+            const timestamp = Date.now();
+            const path = `images/brands/${logo.file}?t=${timestamp}`;
+            
+            const startTime = performance.now();
+            
+            img.onload = function() {
+                const loadTime = Math.round(performance.now() - startTime);
+                status.className = 'status ok';
+                status.textContent = `✅ 成功 (${loadTime}ms)`;
+                infoText.push(`✅ ${logo.name}: ${this.naturalWidth}x${this.naturalHeight}px, ${loadTime}ms`);
+                updateInfo();
+                console.log(`✅ ${logo.name} loaded successfully`);
+            };
+            
+            img.onerror = function() {
+                const loadTime = Math.round(performance.now() - startTime);
+                status.className = 'status fail';
+                status.textContent = `❌ 失败`;
+                infoText.push(`❌ ${logo.name}: 加载失败 (${loadTime}ms)`);
+                infoText.push(`   路径: ${path}`);
+                updateInfo();
+                console.error(`❌ ${logo.name} failed to load:`, path);
+            };
+            
+            img.src = path;
+        });
+        
+        function updateInfo() {
+            infoDiv.innerHTML = infoText.join('<br>');
+        }
+        
+        // 5秒后显示最终结果
+        setTimeout(() => {
+            infoText.push('');
+            infoText.push('─────────────────────────────────────');
+            infoText.push('💡 如果所有logo都显示✅，但index.html仍然不显示：');
+            infoText.push('   1. 说明文件本身没问题');
+            infoText.push('   2. 是index.html的HTML代码问题');
+            infoText.push('   3. 需要检查index.html的img标签路径');
+            infoText.push('');
+            infoText.push('❌ 如果有logo显示失败：');
+            infoText.push('   1. 检查images/brands文件夹');
+            infoText.push('   2. 确认文件权限');
+            infoText.push('   3. 确认文件名大小写');
+            updateInfo();
+        }, 5000);
+        
+        // 打印浏览器信息
+        console.log('🔍 Browser Info:', navigator.userAgent);
+        console.log('📂 Current Path:', window.location.href);
+        console.log('🕐 Test Time:', new Date().toISOString());
+    </script>
+    
+    <div style="margin-top: 30px; padding: 20px; background: #d1ecf1; border-radius: 8px;">
+        <h3>📝 下一步该怎么做？</h3>
+        <ol>
+            <li>如果这个页面的logo <strong>全部显示成功</strong>：
+                <ul>
+                    <li>说明文件路径和文件本身都没问题</li>
+                    <li>问题出在 <code>index.html</code> 上</li>
+                    <li>请在index.html按F12查看Console和Network标签</li>
+                    <li>截图给我看，我会帮你修复</li>
+                </ul>
+            </li>
+            <li>如果这个页面的logo <strong>有失败的</strong>：
+                <ul>
+                    <li>说明文件或路径有问题</li>
+                    <li>运行修复脚本: <code>logo-quick-fix.ps1</code></li>
+                    <li>或者重新下载缺失的文件</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="location.reload()" style="padding: 15px 30px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+            🔄 重新测试
+        </button>
+        <button onclick="window.open('index.html', '_blank')" style="padding: 15px 30px; background: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px;">
+            📄 打开主页（新标签）
+        </button>
+    </div>
+</body>
+</html>

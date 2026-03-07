@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo诊断工具 - DecarsAuto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+        }
+        
+        .diagnostic {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ccc;
+        }
+        
+        .test-item.success {
+            border-left-color: #4caf50;
+        }
+        
+        .test-item.error {
+            border-left-color: #f44336;
+        }
+        
+        .logo-test {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .logo-preview {
+            width: 80px;
+            height: 80px;
+            background: #f5f5f5;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .logo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .logo-info {
+            flex: 1;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status.ok {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status.fail {
+            background: #f44336;
+            color: white;
+        }
+        
+        .path {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+        }
+        
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .console-log {
+            background: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .alert.info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+        
+        .alert.error {
+            background: #f8d7da;
+            border-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 DecarsAuto Logo 诊断工具</h1>
+        
+        <div class="alert info">
+            <strong>📌 说明：</strong> 此页面用于诊断品牌logo加载问题。请检查以下测试结果。
+        </div>
+        
+        <div class="diagnostic">
+            <h2>环境信息</h2>
+            <div id="env-info">
+                <p><strong>浏览器：</strong> <span id="browser"></span></p>
+                <p><strong>当前URL：</strong> <span class="path" id="current-url"></span></p>
+                <p><strong>基础路径：</strong> <span class="path" id="base-path"></span></p>
+            </div>
+        </div>
+        
+        <div class="diagnostic">
+            <h2>Logo加载测试</h2>
+            <div id="logo-tests"></div>
+        </div>
+        
+        <div class="diagnostic">
+            <h2>控制台日志</h2>
+            <div class="console-log" id="console"></div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn" onclick="location.reload()">🔄 重新测试</button>
+            <button class="btn" onclick="clearCache()">🗑️ 清除缓存并刷新</button>
+            <a href="index.html" class="btn">← 返回主页</a>
+            <a href="test-logos.html" class="btn">查看Logo测试页面</a>
+        </div>
+    </div>
+    
+    <script>
+        const logos = [
+            { name: 'Volkswagen', file: 'volkswagen-logo.png', brand: '大众' },
+            { name: 'Audi', file: 'audi-logo.png', brand: '奥迪' },
+            { name: 'Škoda', file: 'skoda-logo.svg', brand: '斯柯达' },
+            { name: 'SEAT', file: 'seat-logo.png', brand: '西雅特' },
+            { name: 'Bentley', file: 'bentley-logo.svg', brand: '宾利' },
+            { name: 'Lamborghini', file: 'lamborghini-logo.png', brand: '兰博基尼' },
+            { name: 'Bugatti', file: 'bugatti-logo.svg', brand: '布加迪' }
+        ];
+        
+        let successCount = 0;
+        let errorCount = 0;
+        const logs = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            logs.push(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
+            updateConsole();
+        }
+        
+        function updateConsole() {
+            document.getElementById('console').innerHTML = logs.join('<br>');
+        }
+        
+        function clearCache() {
+            if (confirm('这将清除缓存并刷新页面。继续吗？')) {
+                // 添加时间戳参数强制刷新
+                location.href = location.href.split('?')[0] + '?t=' + Date.now();
+            }
+        }
+        
+        // 显示环境信息
+        document.getElementById('browser').textContent = navigator.userAgent;
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('base-path').textContent = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        
+        log('开始Logo诊断测试...');
+        log('浏览器: ' + navigator.userAgent.split(')')[0] + ')');
+        log('当前路径: ' + window.location.href);
+        
+        // 测试每个logo
+        const logoTestsContainer = document.getElementById('logo-tests');
+        
+        logos.forEach((logo, index) => {
+            const testItem = document.createElement('div');
+            testItem.className = 'test-item';
+            testItem.innerHTML = `
+                <div class="logo-test">
+                    <div class="logo-preview" id="preview-${index}">
+                        <span style="color: #999;">加载中...</span>
+                    </div>
+                    <div class="logo-info">
+                        <strong>${logo.name}</strong> (${logo.brand})
+                        <br>
+                        <span class="path">images/brands/${logo.file}</span>
+                        <span class="status" id="status-${index}">测试中</span>
+                        <div style="margin-top: 5px; font-size: 12px; color: #666;" id="info-${index}"></div>
+                    </div>
+                </div>
+            `;
+            logoTestsContainer.appendChild(testItem);
+            
+            // 测试加载
+            const img = new Image();
+            const path = `images/brands/${logo.file}`;
+            
+            img.onload = function() {
+                successCount++;
+                testItem.className = 'test-item success';
+                document.getElementById(`preview-${index}`).innerHTML = '';
+                document.getElementById(`preview-${index}`).appendChild(img.cloneNode());
+                document.getElementById(`status-${index}`).textContent = '✅ 成功';
+                document.getElementById(`status-${index}`).className = 'status ok';
+                document.getElementById(`info-${index}`).innerHTML = `
+                    尺寸: ${this.naturalWidth}×${this.naturalHeight}px<br>
+                    加载时间: ${Date.now() - startTime}ms
+                `;
+                log(`✅ ${logo.name} 加载成功 (${this.naturalWidth}×${this.naturalHeight}px)`, 'success');
+            };
+            
+            img.onerror = function() {
+                errorCount++;
+                testItem.className = 'test-item error';
+                document.getElementById(`status-${index}`).textContent = '❌ 失败';
+                document.getElementById(`status-${index}`).className = 'status fail';
+                document.getElementById(`info-${index}`).innerHTML = `
+                    <span style="color: #f44336;">无法加载图片</span><br>
+                    可能原因: 文件不存在、路径错误或权限问题
+                `;
+                log(`❌ ${logo.name} 加载失败: ${path}`, 'error');
+            };
+            
+            const startTime = Date.now();
+            img.src = path + '?t=' + Date.now(); // 添加时间戳避免缓存
+        });
+        
+        // 5秒后显示总结
+        setTimeout(() => {
+            log('');
+            log('=== 测试完成 ===');
+            log(`成功: ${successCount}/7`);
+            log(`失败: ${errorCount}/7`);
+            
+            if (errorCount === 0) {
+                const alert = document.createElement('div');
+                alert.className = 'alert';
+                alert.style.marginTop = '20px';
+                alert.innerHTML = `
+                    <strong>✅ 所有Logo加载成功！</strong><br>
+                    如果在主页仍然看不到logo，请尝试：<br>
+                    1. 清除浏览器缓存 (Ctrl+Shift+Del)<br>
+                    2. 硬刷新页面 (Ctrl+Shift+R 或 Ctrl+F5)<br>
+                    3. 使用隐私/无痕模式打开
+                `;
+                logoTestsContainer.appendChild(alert);
+            } else {
+                const alert = document.createElement('div');
+                alert.className = 'alert error';
+                alert.style.marginTop = '20px';
+                alert.innerHTML = `
+                    <strong>❌ 有${errorCount}个Logo加载失败</strong><br>
+                    请检查：<br>
+                    1. <code>images/brands/</code> 文件夹是否存在<br>
+                    2. Logo文件是否存在且命名正确<br>
+                    3. 文件权限是否正确<br>
+                    4. 运行验证脚本: <code>powershell -ExecutionPolicy Bypass -File "验证脚本.ps1"</code>
+                `;
+                logoTestsContainer.appendChild(alert);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
