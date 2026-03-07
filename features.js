@@ -2,6 +2,66 @@
 // Mobile menu, dark mode, contact form, and back to top button
 
 // ======================
+// Scroll Effects - Header Shadow
+// ======================
+function initScrollEffects() {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+
+        // Add scrolled class when scrolling down
+        if (currentScroll > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        lastScroll = currentScroll;
+    });
+}
+
+// ======================
+// Intersection Observer - Fade In Animations
+// ======================
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all cards and sections
+    const animatedElements = document.querySelectorAll(`
+        .vehicle-card,
+        .service-card,
+        .workflow-step,
+        .trust-item
+    `);
+
+    animatedElements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// ======================
 // Mobile Menu
 // ======================
 function initMobileMenu() {
@@ -155,12 +215,14 @@ function initBackToTop() {
 // ======================
 function initNewFeatures() {
     try {
+        initScrollEffects();       // NEW: Header scroll effects
+        initScrollAnimations();    // NEW: Fade-in animations
         initMobileMenu();
         initDarkMode();
         initContactForm();
         initBackToTop();
-        
-        console.log('[DecarsAuto Features] All new features initialized');
+
+        console.log('[DecarsAuto Features] All features initialized with animations');
     } catch (err) {
         console.error('[DecarsAuto Features] Initialization failed', err);
     }
