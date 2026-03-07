@@ -752,14 +752,14 @@ nav a:hover::after {
 
 /* 背景图片支持 - 支持品牌 */
 .brands.with-background {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.95), rgba(248, 248, 248, 0.95)), url('images/brands-bg.png');
+    background-image: linear-gradient(rgba(248, 248, 248, 0.72), rgba(248, 248, 248, 0.72)), url('images/brands-bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
 body.dark-mode .brands.with-background {
-    background-image: linear-gradient(rgba(17, 17, 17, 0.95), rgba(17, 17, 17, 0.95)), url('images/brands-bg.png');
+    background-image: linear-gradient(rgba(17, 17, 17, 0.72), rgba(17, 17, 17, 0.72)), url('images/brands-bg.png');
 }
 
 .brands h2 {
@@ -1194,14 +1194,14 @@ body.dark-mode .trust.with-background {
 
 /* 背景图片支持 - 联系我们 */
 .contact.with-background {
-    background-image: linear-gradient(rgba(248, 248, 248, 0.95), rgba(248, 248, 248, 0.95)), url('images/contact-bg.png');
+    background-image: linear-gradient(rgba(248, 248, 248, 0.72), rgba(248, 248, 248, 0.72)), url('images/contact-bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
 body.dark-mode .contact.with-background {
-    background-image: linear-gradient(rgba(17, 17, 17, 0.95), rgba(17, 17, 17, 0.95)), url('images/contact-bg.png');
+    background-image: linear-gradient(rgba(17, 17, 17, 0.72), rgba(17, 17, 17, 0.72)), url('images/contact-bg.png');
 }
 
 .contact h2 {
