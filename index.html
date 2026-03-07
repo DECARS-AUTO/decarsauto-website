@@ -587,26 +587,26 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="form-name" data-translate="form-name-label">Name *</label>
-                            <input type="text" id="form-name" name="name" required>
+                            <input type="text" id="form-name" name="name" autocomplete="name" required>
                         </div>
                         <div class="form-group">
                             <label for="form-email" data-translate="form-email-label">Email *</label>
-                            <input type="email" id="form-email" name="email" required>
+                            <input type="email" id="form-email" name="email" autocomplete="email" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="form-phone" data-translate="form-phone-label">Phone</label>
-                            <input type="tel" id="form-phone" name="phone">
+                            <input type="tel" id="form-phone" name="phone" autocomplete="tel">
                         </div>
                         <div class="form-group">
                             <label for="form-vehicle" data-translate="form-vehicle-label">Vehicle Model</label>
-                            <input type="text" id="form-vehicle" name="vehicle" placeholder="e.g., VW Golf 8 2021">
+                            <input type="text" id="form-vehicle" name="vehicle" placeholder="e.g., VW Golf 8 2021" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="form-service" data-translate="form-service-label">Service Needed *</label>
-                        <select id="form-service" name="service" required>
+                        <select id="form-service" name="service" autocomplete="off" required>
                             <option value="" data-translate="form-service-select">-- Select a service --</option>
                             <option value="oem-programming" data-translate="service1-title">OEM online programming / remote flashing</option>
                             <option value="coding" data-translate="service2-title">Control unit parameter coding</option>
@@ -619,7 +619,7 @@
                     </div>
                     <div class="form-group">
                         <label for="form-message" data-translate="form-message-label">Message *</label>
-                        <textarea id="form-message" name="message" rows="5" required placeholder="Please describe your requirements..."></textarea>
+                        <textarea id="form-message" name="message" rows="5" autocomplete="off" required placeholder="Please describe your requirements..."></textarea>
                     </div>
                     <button type="submit" class="btn-primary" data-translate="form-submit">
                         <i class="fas fa-paper-plane"></i>
