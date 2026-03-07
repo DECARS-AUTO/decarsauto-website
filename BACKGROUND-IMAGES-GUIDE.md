@@ -78,7 +78,7 @@ images/
 3. 放入 `images/` 文件夹
 4. 提交并推送到 GitHub：
 ```powershell
-git add images/*-bg.jpg
+git add images/*-bg.png
 git commit -m "Add background images for sections"
 git push origin main
 ```
@@ -168,10 +168,11 @@ A: 可以！支持 JPG, PNG, WebP, SVG
 
 ```bash
 images/
-├── brands-bg.jpg        # ✅ 正确
-├── Brands-bg.jpg        # ❌ 错误（大写B）
-├── brands_bg.jpg        # ❌ 错误（下划线）
-└── brands-background.jpg # ❌ 错误（名称不匹配）
+├── brands-bg.png        # ✅ 正确
+├── Brands-bg.png        # ❌ 错误（大写B）
+├── brands_bg.png        # ❌ 错误（下划线）
+├── brands-background.png # ❌ 错误（名称不匹配）
+└── brands-bg.jpg        # ⚠️  如果用 JPG 需要修改 CSS
 ```
 
 ## 🚀 部署后效果

@@ -747,6 +747,19 @@ nav a:hover::after {
 .brands {
     padding: 100px 0;
     background: var(--bg-light);
+    position: relative;
+}
+
+/* 背景图片支持 - 支持品牌 */
+.brands.with-background {
+    background-image: linear-gradient(rgba(248, 248, 248, 0.95), rgba(248, 248, 248, 0.95)), url('images/brands-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body.dark-mode .brands.with-background {
+    background-image: linear-gradient(rgba(17, 17, 17, 0.95), rgba(17, 17, 17, 0.95)), url('images/brands-bg.png');
 }
 
 .brands h2 {
@@ -916,14 +929,14 @@ nav a:hover::after {
 
 /* 背景图片支持 - 核心服务 */
 .services.with-background {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.97)), url('images/services-bg.jpg');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.97)), url('images/services-bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
 body.dark-mode .services.with-background {
-    background-image: linear-gradient(rgba(26, 26, 26, 0.97), rgba(26, 26, 26, 0.97)), url('images/services-bg.jpg');
+    background-image: linear-gradient(rgba(26, 26, 26, 0.97), rgba(26, 26, 26, 0.97)), url('images/services-bg.png');
 }
 
 .services h2 {
@@ -1011,6 +1024,19 @@ body.dark-mode .services.with-background {
 .workflow {
     padding: 100px 0;
     background: var(--bg-light);
+    position: relative;
+}
+
+/* 背景图片支持 - 远程服务流程 */
+.workflow.with-background {
+    background-image: linear-gradient(rgba(248, 248, 248, 0.95), rgba(248, 248, 248, 0.95)), url('images/workflow-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body.dark-mode .workflow.with-background {
+    background-image: linear-gradient(rgba(17, 17, 17, 0.95), rgba(17, 17, 17, 0.95)), url('images/workflow-bg.png');
 }
 
 .workflow h2 {
@@ -1091,6 +1117,19 @@ body.dark-mode .services.with-background {
 .trust {
     padding: 100px 0;
     background: var(--bg-white);
+    position: relative;
+}
+
+/* 背景图片支持 - 信任保障 */
+.trust.with-background {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.97)), url('images/trust-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body.dark-mode .trust.with-background {
+    background-image: linear-gradient(rgba(26, 26, 26, 0.97), rgba(26, 26, 26, 0.97)), url('images/trust-bg.png');
 }
 
 .trust h2 {
@@ -1150,6 +1189,19 @@ body.dark-mode .services.with-background {
 .contact {
     padding: 100px 0;
     background: var(--bg-light);
+    position: relative;
+}
+
+/* 背景图片支持 - 联系我们 */
+.contact.with-background {
+    background-image: linear-gradient(rgba(248, 248, 248, 0.95), rgba(248, 248, 248, 0.95)), url('images/contact-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body.dark-mode .contact.with-background {
+    background-image: linear-gradient(rgba(17, 17, 17, 0.95), rgba(17, 17, 17, 0.95)), url('images/contact-bg.png');
 }
 
 .contact h2 {
