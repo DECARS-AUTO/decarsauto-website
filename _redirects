@@ -1,0 +1,14 @@
+﻿# 301 永久重定向（如果需要）
+# /old-page /new-page 301
+
+# 将 www 重定向到非 www（推荐）
+https://www.decarsauto.com/* https://decarsauto.com/:splat 301
+
+# 404 页面（如果有自定义404页面）
+# /* /404.html 404
+
+# 强制 HTTPS（通常 Cloudflare 自动处理）
+# http://* https://:splat 301
+
+# SPA 路由支持（如果需要）
+# /* /index.html 200
