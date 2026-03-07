@@ -10,9 +10,14 @@
 
 ### 步骤 2: 配置构建设置
 - **Framework preset**: None (静态网站)
-- **Build command**: 留空
-- **Build output directory**: `/`
-- **Root directory**: `/`
+- **Build command**: 留空（不要填写任何命令）
+- **Build output directory**: `/`（或留空）
+- **Root directory**: `/`（留空）
+
+**重要提示**：
+- ❌ 不要设置 Build command
+- ❌ 不要使用 `npx wrangler deploy`
+- ✅ 让 Cloudflare 直接部署静态文件
 
 ### 步骤 3: 部署
 - 点击 **Save and Deploy**
