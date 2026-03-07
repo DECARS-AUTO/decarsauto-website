@@ -1621,11 +1621,11 @@ footer::before {
     .container {
         padding: 0 20px;
     }
-    
+
     .hero h2 {
         font-size: 28px;
     }
-    
+
     .hero {
         padding: 80px 0 60px;
     }
@@ -1634,45 +1634,56 @@ footer::before {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    
+
     header .container {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .logo-image {
         height: 32px;
     }
-    
+
     .logo h1 {
         font-size: 20px;
     }
-    
+
     nav {
         gap: 20px;
         flex-wrap: wrap;
         justify-content: center;
     }
-    
+
     .cta-buttons {
         flex-direction: column;
     }
-    
+
     .workflow-steps {
         flex-direction: column;
     }
-    
+
     .workflow-arrow {
         transform: rotate(90deg);
         padding: 10px 0;
     }
-    
+
     .service-grid, .trust-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .vehicle-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* 移动端背景图片优化 - 使用 scroll 而非 fixed 提升性能 */
+    .brands.with-background,
+    .services.with-background,
+    .workflow.with-background,
+    .trust.with-background,
+    .contact.with-background {
+        background-attachment: scroll !important;
+        background-size: cover !important;
+        background-position: center center !important;
     }
 }
 
