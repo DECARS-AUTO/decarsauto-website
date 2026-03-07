@@ -266,13 +266,17 @@ let languagePreference = localStorage.getItem('languagePreference') || 'auto'; /
 // Detect browser language
 function detectBrowserLanguage() {
     const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+    console.log('🌍 检测到浏览器语言:', browserLang);
 
     // Map browser language to supported languages
     if (browserLang.startsWith('zh')) {
+        console.log('  → 匹配到中文');
         return 'zh';
     } else if (browserLang.startsWith('de')) {
+        console.log('  → 匹配到德语');
         return 'de';
     } else {
+        console.log('  → 默认使用英文');
         return 'en'; // Default to English
     }
 }
@@ -294,12 +298,16 @@ if (!currentLanguage || languagePreference === 'auto') {
 }
 
 function setLanguage(lang) {
+    console.log('🔄 切换语言:', currentLanguage, '→', lang);
     currentLanguage = lang;
     currentLang = lang;
     localStorage.setItem('language', lang);
 
     // Update all translatable elements
-    document.querySelectorAll('[data-translate]').forEach(element => {
+    const elements = document.querySelectorAll('[data-translate]');
+    console.log('📝 更新', elements.length, '个翻译元素');
+
+    elements.forEach(element => {
         const key = element.getAttribute('data-translate');
         if (translations[lang] && translations[lang][key]) {
             element.textContent = translations[lang][key];
@@ -319,6 +327,8 @@ function setLanguage(lang) {
             option.classList.add('active');
         }
     });
+
+    console.log('✅ 语言切换完成:', lang.toUpperCase());
 }
 
 // ======================
@@ -516,6 +526,7 @@ function loadAnalytics() {
 // Copy Template
 // ======================
 function initCopyTemplate() {
+    console.log('✅ 需求模板复制功能已初始化');
     const copyTemplateLink = document.querySelector('.copy-template');
     if (copyTemplateLink) {
         copyTemplateLink.addEventListener('click', (e) => {
@@ -526,6 +537,7 @@ function initCopyTemplate() {
 }
 
 function copyTemplate() {
+    console.log('📋 用户点击复制需求模板');
     const template = `DecarsAuto Remote Service Request
 
 Vehicle Information:
@@ -556,9 +568,10 @@ Telegram: @Decars_Auto
 Email: shimingjie@decarsauto.de`;
 
     navigator.clipboard.writeText(template).then(() => {
+        console.log('✅ 需求模板已复制到剪贴板');
         alert('Request template copied to clipboard!');
     }).catch(err => {
-        console.error('Failed to copy:', err);
+        console.error('❌ 复制失败:', err);
         alert('Failed to copy template. Please copy manually.');
     });
 }
@@ -567,14 +580,16 @@ Email: shimingjie@decarsauto.de`;
 // Smooth Scrolling
 // ======================
 function initSmoothScroll() {
+    console.log('✅ 平滑滚动已初始化');
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             if (href === '#' || href === '#cookie-settings-link') return;
-            
+
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
+                console.log('🔗 平滑滚动到:', href);
                 target.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
@@ -588,33 +603,53 @@ function initSmoothScroll() {
 // Initialization
 // ======================
 function initApp() {
+    console.group('🎯 DecarsAuto 主脚本初始化');
     try {
+        console.log('1️⃣ 设置语言:', currentLanguage.toUpperCase());
         setLanguage(currentLanguage);
+
+        console.log('2️⃣ 初始化语言切换器');
         initLanguageSwitcher();
+
+        console.log('3️⃣ 初始化 Cookie 横幅');
         initCookieBanner();
+
+        console.log('4️⃣ 初始化需求模板复制');
         initCopyTemplate();
+
+        console.log('5️⃣ 初始化平滑滚动');
         initSmoothScroll();
 
         const cookieConsent = getCookie('cookie_consent');
         if (cookieConsent === 'accepted') {
+            console.log('6️⃣ Cookie 已同意，加载分析工具');
             loadAnalytics();
+        } else {
+            console.log('6️⃣ Cookie 未同意，跳过分析工具');
         }
 
         const btn = document.getElementById('lang-dropdown-btn');
         const copy = document.querySelector('.copy-template');
-        console.log('[DecarsAuto] init OK', {
-            hasLangButton: !!btn,
-            hasCopyTemplate: !!copy,
-            language: currentLanguage,
-            readyState: document.readyState
+
+        console.log('✅ 主脚本初始化完成');
+        console.log('📊 模块状态:', {
+            '语言按钮': !!btn ? '✅' : '❌',
+            '复制模板': !!copy ? '✅' : '❌',
+            '当前语言': currentLanguage,
+            'DOM状态': document.readyState
         });
+        console.groupEnd();
+
     } catch (err) {
-        console.error('[DecarsAuto] init FAILED', err);
+        console.error('❌ 主脚本初始化失败:', err);
+        console.groupEnd();
     }
 }
 
 if (document.readyState === 'loading') {
+    console.log('⏳ 等待 DOM 加载完成...');
     document.addEventListener('DOMContentLoaded', initApp);
 } else {
+    console.log('⚡ DOM 已就绪，立即初始化');
     initApp();
 }
