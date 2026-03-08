@@ -1198,20 +1198,16 @@ body.dark-mode .workflow.with-background {
                 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.tool-card > .fa-desktop,
-.tool-card > .fa-user-friends,
-.tool-card > .fa-laptop-code,
-.tool-card > .fa-eye {
-    font-size: 42px;
-    color: var(--primary-color);
+.tool-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
     transition: transform 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.tool-card:hover > .fa-desktop,
-.tool-card:hover > .fa-user-friends,
-.tool-card:hover > .fa-laptop-code,
-.tool-card:hover > .fa-eye {
-    transform: scale(1.1);
+.tool-card:hover .tool-logo {
+    transform: scale(1.15);
 }
 
 .tool-card .tool-name {
@@ -1257,6 +1253,10 @@ body.dark-mode .tool-card:hover {
 
 body.dark-mode .tool-card .tool-name {
     color: #ffffff;
+}
+
+body.dark-mode .tool-logo {
+    filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1)) brightness(1.1);
 }
 
 /* Trust Section */
