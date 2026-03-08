@@ -1,0 +1,11 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="todeskGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5856d6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4527a0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect fill="url(#todeskGrad)" width="200" height="200" rx="30"/>
+  <text x="100" y="125" font-size="85" fill="white" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold">TD</text>
+  <rect x="60" y="45" width="80" height="15" rx="7" fill="white" opacity="0.3"/>
+</svg>
