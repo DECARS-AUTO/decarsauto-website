@@ -1168,10 +1168,16 @@ body.dark-mode .workflow.with-background {
 
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     max-width: 1000px;
     margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .tool-card {
@@ -1199,11 +1205,14 @@ body.dark-mode .workflow.with-background {
 }
 
 .tool-logo {
-    width: 48px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
     object-fit: contain;
     transition: transform 0.3s ease;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 12px;
 }
 
 .tool-card:hover .tool-logo {
@@ -1257,6 +1266,7 @@ body.dark-mode .tool-card .tool-name {
 
 body.dark-mode .tool-logo {
     filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1)) brightness(1.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Trust Section */
@@ -1786,6 +1796,16 @@ footer::before {
     .tools-grid {
         grid-template-columns: 1fr;
         gap: 15px;
+        padding: 0 10px;
+    }
+
+    .tool-card {
+        padding: 25px 15px;
+    }
+
+    .tool-logo {
+        width: 56px;
+        height: 56px;
     }
 
     .vehicle-grid {
