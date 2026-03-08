@@ -187,6 +187,8 @@
         "form-email-label": "E-Mail *",
         "form-phone-label": "Telefon",
         "form-vehicle-label": "Fahrzeugmodell",
+        "form-vin-label": "Fahrzeug-Identifizierungsnummer (VIN)",
+        "form-region-label": "Verkaufsregion",
         "form-service-label": "Benötigte Dienstleistung *",
         "form-service-select": "-- Dienstleistung auswählen --",
         "form-message-label": "Nachricht *",
@@ -282,6 +284,8 @@
         "form-email-label": "邮箱 *",
         "form-phone-label": "电话",
         "form-vehicle-label": "车辆型号",
+        "form-vin-label": "车辆识别代码 (VIN)",
+        "form-region-label": "销售区域",
         "form-service-label": "所需服务 *",
         "form-service-select": "-- 选择服务 --",
         "form-message-label": "留言 *",
@@ -602,6 +606,16 @@
                         <div class="form-group">
                             <label for="form-vehicle" data-translate="form-vehicle-label">Vehicle Model</label>
                             <input type="text" id="form-vehicle" name="vehicle" placeholder="e.g., VW Golf 8 2021" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="form-vin" data-translate="form-vin-label">Vehicle Identification Number (VIN)</label>
+                            <input type="text" id="form-vin" name="vin" placeholder="e.g., WVWZZZ1KZAW123456" autocomplete="off" maxlength="17" pattern="[A-HJ-NPR-Z0-9]{17}" title="VIN must be 17 characters (letters and numbers, excluding I, O, Q)">
+                        </div>
+                        <div class="form-group">
+                            <label for="form-region" data-translate="form-region-label">Sales Region</label>
+                            <input type="text" id="form-region" name="region" placeholder="e.g., EU / CN / US / ROW" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group">
