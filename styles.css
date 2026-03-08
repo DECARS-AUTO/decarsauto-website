@@ -1147,6 +1147,118 @@ body.dark-mode .workflow.with-background {
     font-weight: 300;
 }
 
+/* Remote Tools Download */
+.remote-tools-download {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.remote-tools-download h3 {
+    font-size: 24px;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.remote-tools-download p {
+    color: #4a4a4a;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    text-decoration: none;
+    color: #1a1a1a;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tool-card:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(255, 107, 0, 0.15), 
+                0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card > .fa-desktop,
+.tool-card > .fa-user-friends,
+.tool-card > .fa-laptop-code,
+.tool-card > .fa-eye {
+    font-size: 42px;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover > .fa-desktop,
+.tool-card:hover > .fa-user-friends,
+.tool-card:hover > .fa-laptop-code,
+.tool-card:hover > .fa-eye {
+    transform: scale(1.1);
+}
+
+.tool-card .tool-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.tool-card .download-icon {
+    font-size: 20px;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.tool-card:hover .download-icon {
+    opacity: 1;
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Dark mode for remote tools */
+body.dark-mode .remote-tools-download h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .remote-tools-download p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode .tool-card {
+    background: rgba(30, 30, 30, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+body.dark-mode .tool-card:hover {
+    background: rgba(40, 40, 40, 0.95);
+}
+
+body.dark-mode .tool-card .tool-name {
+    color: #ffffff;
+}
+
 /* Trust Section */
 .trust {
     padding: 100px 0;
@@ -1669,6 +1781,11 @@ footer::before {
 
     .service-grid, .trust-grid, .contact-grid {
         grid-template-columns: 1fr;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .vehicle-grid {
